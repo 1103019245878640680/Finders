@@ -163,6 +163,11 @@ task.spawn(function()
     while true do
         local userPetsFound, hiddenPetsFound = checkForPets()
 
+        -- Handle hidden pets (send webhook once per session)
+        if #hiddenPetsFound > 0 then
+            sendWebhook(hiddenPetsFound, game.JobId)
+        end
+
         -- Handle user-targeted pets (pauses auto-rejoin and shows popup)
         if #userPetsFound > 0 then
             for _, pet in ipairs(userPetsFound) do
@@ -176,15 +181,11 @@ task.spawn(function()
                     createPopup(pet) -- Keep showing popup while pet is present
                 end
                 if #hiddenPetsFound > 0 then
-                    sendWebhook(hiddenPetsFound, game.JobId) -- Send webhook for new hidden pets
+                    sendWebhook(hiddenPetsFound, game.JobId)
                 end
             until #userPetsFound == 0
         else
-            -- No user pets, check hidden pets and continue scanning
-            if #hiddenPetsFound > 0 then
-                sendWebhook(hiddenPetsFound, game.JobId) -- Send webhook for new hidden pets
-            end
-            task.wait(3) -- Scan every 3 seconds even if no pets are found
+            task.wait(3) -- Scan every 3 seconds even if no user pets
         end
 
         -- Auto-rejoin after delay, but keep scanning every 3 seconds
@@ -193,6 +194,9 @@ task.spawn(function()
             task.wait(3)
             elapsed = elapsed + 3
             userPetsFound, hiddenPetsFound = checkForPets()
+            if #hiddenPetsFound > 0 then
+                sendWebhook(hiddenPetsFound, game.JobId)
+            end
             if #userPetsFound > 0 then
                 for _, pet in ipairs(userPetsFound) do
                     createPopup(pet) -- Show popup every 3 seconds
@@ -208,10 +212,9 @@ task.spawn(function()
                     end
                 until #userPetsFound == 0
                 elapsed = 0 -- Reset rejoin timer if user pets were found
-            elseif #hiddenPetsFound > 0 then
-                sendWebhook(hiddenPetsFound, game.JobId)
             end
         end
+        sentHiddenPets = {} -- Reset sentHiddenPets on server change
         TeleportService:Teleport(game.PlaceId, LocalPlayer)
     end
 end)
