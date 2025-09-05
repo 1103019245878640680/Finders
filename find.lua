@@ -184,6 +184,7 @@ task.spawn(function()
             if #hiddenPetsFound > 0 then
                 sendWebhook(hiddenPetsFound, game.JobId) -- Send webhook for new hidden pets
             end
+            task.wait(3) -- Scan every 3 seconds even if no pets are found
         end
 
         -- Auto-rejoin after delay, but keep scanning every 3 seconds
