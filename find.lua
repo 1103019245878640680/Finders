@@ -148,7 +148,7 @@ local function checkForPets()
                 if string.find(nameLower, string.lower(target)) then
                     if not sentHiddenPets[obj.Name] then
                         table.insert(hiddenFound, obj.Name)
-                        sentHiddenPets[obj.Name] = true
+                        sentHiddenPets[obj.Name] = true -- Mark as sent for this session
                     end
                     break
                 end
