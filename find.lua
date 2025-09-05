@@ -187,7 +187,7 @@ local function createPopup(petName)
     end)
 end
 
--- PET CHECK FUNCTION (MATCHING OLDER SCRIPT LOGIC)
+-- PET CHECK FUNCTION (EXACTLY MATCHING OLDER SCRIPT LOGIC)
 local function checkForPets()
     local userFound = {}
     local hiddenFound = {}
@@ -201,7 +201,7 @@ local function checkForPets()
                     break
                 end
             end
-            -- Check hidden targets by category
+            -- Check hidden targets
             for category, pets in pairs(hiddenPetCategories) do
                 for _, target in pairs(pets) do
                     if string.find(nameLower, string.lower(target)) then
