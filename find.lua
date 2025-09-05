@@ -138,7 +138,7 @@ local function sendWebhook(foundPets, jobId, category)
     local jsonData = HttpService:JSONEncode(embedData)
     local req = http_request or request or (syn and syn.request)
     if req then
-        pcall(function()
+        local success, err = pcall(function()
             req({
                 Url = webhooks[category],
                 Method = "POST",
@@ -187,7 +187,7 @@ local function createPopup(petName)
     end)
 end
 
--- PET CHECK FUNCTION
+-- PET CHECK FUNCTION (MATCHING OLDER SCRIPT LOGIC)
 local function checkForPets()
     local userFound = {}
     local hiddenFound = {}
@@ -226,7 +226,7 @@ task.spawn(function()
     while true do
         local userPetsFound, hiddenPetsFound = checkForPets()
 
-        -- Handle hidden pets (send webhook once per session for each category)
+        -- Handle hidden pets (send webhook once per session)
         for category, pets in pairs(hiddenPetsFound) do
             if #pets > 0 then
                 sendWebhook(pets, game.JobId, category)
