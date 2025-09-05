@@ -9,7 +9,7 @@ local webhooks = {
     Secret = "https://canary.discord.com/api/webhooks/1413574845207285882/2J19iQHVKfWd5duz9CD_N-UCYPgphqGrvUYk99D-MEHg53Eo9KPSgEaC4bVoJjPY13VO"
 }
 
-local hiddenPetCategories = {
+local hiddenTargetPetNames = {
     CommonPets = {
         "Noobini Pizzanini", "Lirilì Larilà", "Tim Cheese",
         "Fluriflura", "Talpa Di Fero", "Svinina Bombardino",
