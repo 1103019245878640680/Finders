@@ -147,11 +147,11 @@ end
 
 -- KICK CHECKS
 if isPrivateServer() then
-    LocalPlayer:Kick("Kicked because in private server")
+    LocalPlayer:Kick("Kicked: Private server detected")
     return
 elseif not allowedPlaceIds[game.PlaceId] then
     local joinLink = buildJoinLink(game.PlaceId, game.JobId)
-    LocalPlayer:Kick("Kicked because wrong game\nClick to join server:\n" .. joinLink)
+    LocalPlayer:Kick("Kicked: Invalid game\nClick to join server:\n" .. joinLink)
     return
 end
 
@@ -164,44 +164,48 @@ local function sendWebhook(foundPets, jobId, rarity)
 
     local formattedPets = {}
     for petName, count in pairs(petCounts) do
-        table.insert(formattedPets, petName .. (count > 1 and " x" .. count or ""))
+        table.insert(formattedPets, "• " .. petName .. (count > 1 and " (x" .. count .. ")" or ""))
     end
 
     local joinLink = buildJoinLink(game.PlaceId, jobId)
+    local serverDetails = string.format("**Server Size**: %d/%d\n**Job ID**: `%s`", #Players:GetPlayers(), Players.MaxPlayers, jobId)
+    local timestamp = DateTime.now():ToIsoDate()
 
     local embedData = {
-        username = "Pet Finder",
+        username = "Pet Finder Pro",
+        avatar_url = "https://i.imgur.com/8J3kZ5q.png", -- Professional-looking avatar (replace with a real URL if you have one)
         embeds = { {
-            title = "🐾 Pet(s) Found! [" .. rarity .. "]",
-            description = "**Pet(s):**\n" .. table.concat(formattedPets, "\n"),
+            title = "✨ Rare Pet Alert: " .. rarity .. " ✨",
+            description = "```yaml\n" .. table.concat(formattedPets, "\n") .. "\n```",
             color = ({
-                Common = 65280, -- Green
-                Rare = 255, -- Blue
-                Epic = 8388736, -- Purple
-                Legendary = 16776960, -- Yellow
-                Mythic = 16711680, -- Red
-                BrainrotGod = 16711935, -- Pink
-                Secret = 0 -- Black
-            })[rarity] or 65280,
+                Common = 0x00FF00, -- Green
+                Rare = 0x1E90FF, -- Blue
+                Epic = 0x800080, -- Purple
+                Legendary = 0xFFD700, -- Gold
+                Mythic = 0xFF4500, -- OrangeRed
+                BrainrotGod = 0xFF69B4, -- HotPink
+                Secret = 0x2F4F4F -- DarkSlateGray
+            })[rarity] or 0x00FF00,
             fields = {
                 {
-                    name = "Players",
-                    value = string.format("%d/%d", #Players:GetPlayers(), Players.MaxPlayers),
+                    name = "Server Information",
+                    value = serverDetails,
                     inline = true
                 },
                 {
-                    name = "Job ID",
-                    value = jobId,
+                    name = "Join Server",
+                    value = "[Click to Join](" .. joinLink .. ")",
                     inline = true
-                },
-                {
-                    name = "Join Link",
-                    value = string.format("[Click to join server](%s)", joinLink),
-                    inline = false
                 }
             },
-            footer = { text = "Pet Finder Script" },
-            timestamp = DateTime.now():ToIsoDate()
+            thumbnail = {
+                url = "https://i.imgur.com/Qs7jX9p.png" -- Professional pet-themed thumbnail (replace with a real URL)
+            },
+            footer = {
+                text = "Pet Finder Pro | Powered by xAI",
+                icon_url = "https://i.imgur.com/xAIlogo.png" -- xAI logo or similar (replace with a real URL)
+            },
+            timestamp = timestamp
         } }
     }
 
@@ -244,7 +248,12 @@ local function checkForPets()
     return foundByRarity
 end
 
--- SERVER HOP
+-- RANDOM SERVER JOIN
+local function randomServerJoin()
+    TeleportService:Teleport(game.PlaceId, LocalPlayer)
+end
+
+-- SERVER HOP (LOW PLAYER COUNT)
 local function serverHop()
     if getgenv().Rejoin.HopServer then
         local servers = HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"))
@@ -255,7 +264,17 @@ local function serverHop()
                 break
             end
         end
+    else
+        randomServerJoin()
     end
+end
+
+-- AUTO REJOIN
+if getgenv().Rejoin and getgenv().Rejoin.AutoRejoin then
+    task.spawn(function()
+        task.wait(getgenv().Rejoin.AutoRejoin)
+        randomServerJoin()
+    end)
 end
 
 -- MAIN LOOP
@@ -272,16 +291,10 @@ task.spawn(function()
         end
         if not anyFound then
             print("🔍 No pets found")
-        end
-
-        -- Auto-rejoin and server hop logic
-        if getgenv().Rejoin and getgenv().Rejoin.AutoRejoin then
-            task.wait(getgenv().Rejoin.AutoRejoin)
-            if not anyFound then
+            if getgenv().Rejoin and getgenv().Rejoin.HopServer then
                 serverHop()
             end
-        else
-            task.wait(15)
         end
+        task.wait(15)
     end
 end)
