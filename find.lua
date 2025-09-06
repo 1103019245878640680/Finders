@@ -128,7 +128,7 @@ end
 
 local function buildJoinLink(placeId, jobId)
     return string.format(
-        "https://joinbgsi.shop/?placeId=%s&gameInstanceId=%s",
+        "https://chillihub1.github.io/chillihub-joiner/?placeId=%d&gameInstanceId=%s",
         placeId,
         jobId
     )
